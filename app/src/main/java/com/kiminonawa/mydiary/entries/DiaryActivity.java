@@ -50,7 +50,6 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
      */
     private LinearLayout LL_diary_topbar_content;
     private ViewPager ViewPager_diary_content;
-    private TextView TV_diary_topbar_title;
     private SegmentedGroup SG_diary_topbar;
     private RadioButton But_diary_topbar_entries, But_diary_topbar_calendar, But_diary_topbar_diary;
 
@@ -93,14 +92,7 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
         But_diary_topbar_entries = (RadioButton) findViewById(R.id.But_diary_topbar_entries);
         But_diary_topbar_calendar = (RadioButton) findViewById(R.id.But_diary_topbar_calendar);
         But_diary_topbar_diary = (RadioButton) findViewById(R.id.But_diary_topbar_diary);
-        TV_diary_topbar_title = (TextView) findViewById(R.id.TV_diary_topbar_title);
-        TV_diary_topbar_title.setTextColor(ThemeManager.getInstance().getThemeDarkColor(this));
 
-        String diaryTitle = getIntent().getStringExtra("diaryTitle");
-        if (diaryTitle == null) {
-            diaryTitle = "Diary";
-        }
-        TV_diary_topbar_title.setText(diaryTitle);
         //After SegmentedGroup was created
         initViewPager();
         initGoogleAPi();

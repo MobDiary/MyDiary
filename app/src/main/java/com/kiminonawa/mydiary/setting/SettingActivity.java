@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -30,13 +29,8 @@ import java.io.IOException;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.kiminonawa.mydiary.shared.PermissionHelper.REQUEST_WRITE_ES_PERMISSION;
-
-/**
- * Created by daxia on 2016/11/30.
- */
-
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener,
-        SettingColorPickerFragment.colorPickerCallback, AdapterView.OnItemSelectedListener {
+         AdapterView.OnItemSelectedListener {
 
     /**
      * Theme
@@ -91,12 +85,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         But_setting_theme_apply = (Button) findViewById(R.id.But_setting_theme_apply);
         But_setting_theme_apply.setOnClickListener(this);
 
-        SP_setting_language = (Spinner) findViewById(R.id.SP_setting_language);
 
-        But_setting_fix_photo_17_dir = (Button) findViewById(R.id.But_setting_fix_photo_17_dir);
-        But_setting_fix_photo_17_dir.setOnClickListener(this);
-
-        initSpinner();
         initTheme(themeManager.getCurrentTheme());
         initLanguage();
     }
@@ -199,22 +188,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 new ColorDrawable(themeManager.getThemeDarkColor(this)));
     }
 
-    private void initSpinner() {
-        //Theme Spinner
-        ArrayAdapter themeAdapter = new ArrayAdapter(this, R.layout.spinner_simple_text,
-                getResources().getStringArray(R.array.theme_list));
-        SP_setting_theme.setAdapter(themeAdapter);
-        SP_setting_theme.setSelection(themeManager.getCurrentTheme());
-        SP_setting_theme.setOnItemSelectedListener(this);
-
-        //Language spinner
-        ArrayAdapter languageAdapter = new ArrayAdapter(this, R.layout.spinner_simple_text,
-                getResources().getStringArray(R.array.language_list));
-        SP_setting_language.setAdapter(languageAdapter);
-        SP_setting_language.setSelection(SPFManager.getLocalLanguageCode(this));
-        SP_setting_language.setOnItemSelectedListener(this);
-    }
-
     private void applySetting(boolean killProcess) {
         //Restart App
         Intent i = this.getBaseContext().getPackageManager()
@@ -227,23 +200,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             System.exit(0);
         } else {
             this.finish();
-        }
-    }
-
-    @Override
-    public void onColorChange(int colorCode, int viewId) {
-        switch (viewId) {
-            case R.id.IV_setting_theme_main_color:
-                tempMainColorCode = colorCode;
-                IV_setting_theme_main_color.setImageDrawable(new ColorDrawable(tempMainColorCode));
-                if (IV_setting_profile_bg.getDrawable() instanceof ColorDrawable) {
-                    IV_setting_profile_bg.setImageDrawable(
-                            new ColorDrawable(tempMainColorCode));
-                }
-                break;
-            case R.id.IV_setting_theme_dark_color:
-                IV_setting_theme_dark_color.setImageDrawable(new ColorDrawable(colorCode));
-                break;
         }
     }
 
@@ -317,37 +273,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                         SettingColorPickerFragment.newInstance(themeManager.getThemeDarkColor(this), R.id.IV_setting_theme_dark_color);
                 secColorPickerFragment.show(getSupportFragmentManager(), "secColorPickerFragment");
                 break;
-            case R.id.But_setting_fix_photo_17_dir:
-                //The new diary dir was updated in version 17
-                //But , some device have a problem , so I add this setting.
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (OldVersionHelper.Version17MoveTheDiaryIntoNewDir(SettingActivity.this)) {
-                                SettingActivity.this.runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(SettingActivity.this, getString(R.string.toast_setting_successful), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } else {
-                                SettingActivity.this.runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(SettingActivity.this, getString(R.string.toast_setting_wont_fix), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            SettingActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(SettingActivity.this, getString(R.string.toast_setting_fail), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
-                }).run();
-                break;
         }
 
     }
@@ -364,15 +289,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     //First time do nothing
                     isThemeFirstRun = false;
-                }
-                break;
-            case R.id.SP_setting_language:
-                if (!isLanguageFirstRun) {
-                    SPFManager.setLocalLanguageCode(this, position);
-                    applySetting(true);
-                } else {
-                    //First time do nothing
-                    isLanguageFirstRun = false;
                 }
                 break;
         }
