@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.main.MainActivity;
+import com.kiminonawa.mydiary.entries.DiaryActivity;
+
 import com.kiminonawa.mydiary.shared.Encryption;
 import com.kiminonawa.mydiary.shared.MyDiaryApplication;
 import com.kiminonawa.mydiary.shared.SPFManager;
@@ -191,7 +192,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case VERIFY_PASSWORD:
                 if (isPasswordCorrect(passwordStrBuilder.toString())) {
-                    Intent goMainPageIntent = new Intent(this, MainActivity.class);
+                    Intent goMainPageIntent = new Intent(this, DiaryActivity.class);
                     goMainPageIntent.putExtra("showReleaseNote", showReleaseNote);
                     finish();
                     this.startActivity(goMainPageIntent);

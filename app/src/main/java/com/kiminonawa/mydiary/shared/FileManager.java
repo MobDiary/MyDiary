@@ -16,7 +16,6 @@ import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.kiminonawa.mydiary.main.topic.ITopic;
 
 import org.apache.commons.io.FileUtils;
 
@@ -29,35 +28,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
-
-/**
- * Created by daxia on 2016/11/18.
- */
-
-//
-//                       _oo0oo_
-//                      o8888888o
-//                      88" . "88
-//                      (| -_- |)
-//                      0\  =  /0
-//                    ___/`---'\___
-//                  .' \\|     |// '.
-//                 / \\|||  :  |||// \
-//                / _||||| -:- |||||- \
-//               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
-//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
-//                       `=---='
-//
-//
-//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//
-//               佛祖保佑         永無Bug
 
 public class FileManager {
 
@@ -157,23 +127,7 @@ public class FileManager {
     /**
      * Create topic dir file manager for delete
      */
-    public FileManager(Context context, int topicType, long topicId) {
-        this.mContext = context;
-        switch (topicType) {
-            case ITopic.TYPE_MEMO:
-                this.fileDir = mContext.getExternalFilesDir(MEMO_ROOT_DIR_STR + "/" + topicId + "/");
 
-                break;
-            case ITopic.TYPE_CONTACTS:
-                this.fileDir = mContext.getExternalFilesDir(CONTACTS_ROOT_DIR_STR + "/" + topicId + "/");
-
-                break;
-            case ITopic.TYPE_DIARY:
-                this.fileDir = mContext.getExternalFilesDir(DIARY_ROOT_DIR_STR + "/" + topicId + "/");
-
-                break;
-        }
-    }
 
 
     public File getDir() {

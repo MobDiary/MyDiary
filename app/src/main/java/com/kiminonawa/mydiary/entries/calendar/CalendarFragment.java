@@ -31,7 +31,7 @@ import static java.util.Collections.binarySearch;
 
 
 public class CalendarFragment extends BaseDiaryFragment implements View.OnClickListener,
-    OnDateSelectedListener, DayViewDecorator {
+        OnDateSelectedListener, DayViewDecorator {
 
 
     /**

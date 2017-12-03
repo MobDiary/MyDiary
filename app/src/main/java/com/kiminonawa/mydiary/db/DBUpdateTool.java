@@ -24,25 +24,6 @@ public class DBUpdateTool {
      * Version 6
      */
 
-    public Cursor version_6_SelectMemo(long topicId) {
-        Cursor c = db.query(DBStructure.MemoEntry.TABLE_NAME, null, DBStructure.MemoEntry.COLUMN_REF_TOPIC__ID + " = ?", new String[]{String.valueOf(topicId)},
-                null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
-
-    public long version_6_InsertMemoOrder(long topicId, long memoId, long order) {
-        ContentValues values = new ContentValues();
-        values.put(DBStructure.MemoOrderEntry.COLUMN_ORDER, order);
-        values.put(DBStructure.MemoOrderEntry.COLUMN_REF_TOPIC__ID, topicId);
-        values.put(DBStructure.MemoOrderEntry.COLUMN_REF_MEMO__ID, memoId);
-        return db.insert(
-                DBStructure.MemoOrderEntry.TABLE_NAME,
-                null,
-                values);
-    }
 
     /**
      * Old selectTopic method 

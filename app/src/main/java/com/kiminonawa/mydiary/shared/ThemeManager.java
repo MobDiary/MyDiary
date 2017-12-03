@@ -12,7 +12,6 @@ import android.os.Build;
 import android.support.v4.media.RatingCompat;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.main.topic.ITopic;
 import com.kiminonawa.mydiary.shared.statusbar.ChinaPhoneHelper;
 
 import java.io.File;
@@ -151,25 +150,9 @@ public class ThemeManager {
      *
      * @param context
      * @param topicId
-     * @param topicType
      * @return
      */
-    public Drawable getTopicBgDrawable(Context context, long topicId, int topicType) {
-        Drawable returnDrawable;
-        switch (topicType) {
-            case ITopic.TYPE_MEMO:
-                returnDrawable = getMemoBgDrawable(context, topicId);
-                break;
-            case ITopic.TYPE_CONTACTS:
-                returnDrawable = getContactsBgDrawable(context, topicId);
-                break;
-            //ITopic.TYPE_DIARY
-            default:
-                returnDrawable = getEntriesBgDrawable(context, topicId);
-                break;
-        }
-        return returnDrawable;
-    }
+
 
     public Drawable getEntriesBgDrawable(Context context, long topicId) {
         Drawable bgDrawable;
@@ -246,22 +229,7 @@ public class ThemeManager {
         return bgDrawable;
     }
 
-    public Drawable getTopicBgDefaultDrawable(Context context, int topicType) {
-        Drawable returnDefaultDrawable;
-        switch (topicType) {
-            case ITopic.TYPE_MEMO:
-                returnDefaultDrawable = getMemoBgDefaultDrawable();
-                break;
-            case ITopic.TYPE_CONTACTS:
-                returnDefaultDrawable = getContactsDefaultBgDrawable(context);
-                break;
-            //ITopic.TYPE_DIARY
-            default:
-                returnDefaultDrawable = getEntriesBgDefaultDrawable(context);
-                break;
-        }
-        return returnDefaultDrawable;
-    }
+
 
     private Drawable getEntriesBgDefaultDrawable(Context context) {
         Drawable defaultBgDrawable;
@@ -279,37 +247,9 @@ public class ThemeManager {
         return defaultBgDrawable;
     }
 
-    public Drawable getMemoBgDefaultDrawable() {
-        Drawable defaultBgDrawable;
-        switch (currentTheme) {
-            case TAKI:
-                defaultBgDrawable = new ColorDrawable(Color.WHITE);
-                break;
-            case MITSUHA:
-                defaultBgDrawable = new ColorDrawable(Color.WHITE);
-                break;
-            default:
-                defaultBgDrawable = new ColorDrawable(Color.WHITE);
-                break;
-        }
-        return defaultBgDrawable;
-    }
 
-    public Drawable getContactsDefaultBgDrawable(Context context) {
-        Drawable defaultBgDrawable;
-        switch (currentTheme) {
-            case TAKI:
-                defaultBgDrawable = ViewTools.getDrawable(context, R.drawable.contacts_bg_taki);
-                break;
-            case MITSUHA:
-                defaultBgDrawable = ViewTools.getDrawable(context, R.drawable.contacts_bg_mitsuha);
-                break;
-            default:
-                defaultBgDrawable = new ColorDrawable(SPFManager.getMainColor(context));
-                break;
-        }
-        return defaultBgDrawable;
-    }
+
+
 
 
     public Drawable getButtonBgDrawable(Context context) {
@@ -422,34 +362,7 @@ public class ThemeManager {
         return userName;
     }
 
-    public File getTopicBgSavePathFile(Context context, long topicId, int topicType) {
-        File outputFile;
-        switch (topicType) {
-            case ITopic.TYPE_MEMO:
-                FileManager memoFM = new FileManager(context, FileManager.MEMO_ROOT_DIR);
-                outputFile = new File(
-                        memoFM.getDirAbsolutePath()
-                                + "/" + topicId
-                                + "/" + ThemeManager.CUSTOM_TOPIC_BG_FILENAME);
-                break;
-            case ITopic.TYPE_CONTACTS:
-                FileManager contactsFM = new FileManager(context, FileManager.CONTACTS_ROOT_DIR);
-                outputFile = new File(
-                        contactsFM.getDirAbsolutePath()
-                                + "/" + topicId
-                                + "/" + ThemeManager.CUSTOM_TOPIC_BG_FILENAME);
-                break;
-            //TYPE_DIARY
-            default:
-                FileManager diaryFM = new FileManager(context, FileManager.DIARY_ROOT_DIR);
-                outputFile = new File(
-                        diaryFM.getDirAbsolutePath()
-                                + "/" + topicId
-                                + "/" + ThemeManager.CUSTOM_TOPIC_BG_FILENAME);
-                break;
-        }
-        return outputFile;
-    }
+
 
 
     public

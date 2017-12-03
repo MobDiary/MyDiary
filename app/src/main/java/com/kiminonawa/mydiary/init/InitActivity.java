@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.kiminonawa.mydiary.BuildConfig;
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.main.MainActivity;
+import com.kiminonawa.mydiary.entries.DiaryActivity;
+
 import com.kiminonawa.mydiary.security.PasswordActivity;
 import com.kiminonawa.mydiary.shared.MyDiaryApplication;
 import com.kiminonawa.mydiary.shared.SPFManager;
@@ -63,7 +64,7 @@ public class InitActivity extends Activity implements InitTask.InitCallBack {
             finish();
             InitActivity.this.startActivity(goSecurityPageIntent);
         } else {
-            Intent goMainPageIntent = new Intent(InitActivity.this, MainActivity.class);
+            Intent goMainPageIntent = new Intent(InitActivity.this, DiaryActivity.class);
             goMainPageIntent.putExtra("showReleaseNote", showReleaseNote);
             finish();
             InitActivity.this.startActivity(goMainPageIntent);

@@ -7,17 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import static com.kiminonawa.mydiary.db.DBStructure.ContactsEntry;
 import static com.kiminonawa.mydiary.db.DBStructure.DiaryEntry_V2;
 import static com.kiminonawa.mydiary.db.DBStructure.DiaryItemEntry_V2;
-import static com.kiminonawa.mydiary.db.DBStructure.MemoEntry;
-import static com.kiminonawa.mydiary.db.DBStructure.MemoOrderEntry;
 import static com.kiminonawa.mydiary.db.DBStructure.TopicEntry;
 import static com.kiminonawa.mydiary.db.DBStructure.TopicOrderEntry;
 
-/**
- * Created by daxia on 2016/4/2.
- */
 public class DBManager {
 
 
@@ -131,34 +125,6 @@ public class DBManager {
         return count;
     }
 
-    public int getMemoCountByTopicId(long topicId) {
-        Cursor cursor = db.rawQuery("SELECT COUNT (*) FROM " + MemoEntry.TABLE_NAME + " WHERE " + MemoEntry.COLUMN_REF_TOPIC__ID + "=?",
-                new String[]{String.valueOf(topicId)});
-        int count = 0;
-        if (null != cursor) {
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                count = cursor.getInt(0);
-            }
-            cursor.close();
-        }
-        return count;
-    }
-
-
-    public int getContactsCountByTopicId(long topicId) {
-        Cursor cursor = db.rawQuery("SELECT COUNT (*) FROM " + ContactsEntry.TABLE_NAME + " WHERE " + ContactsEntry.COLUMN_REF_TOPIC__ID + "=?",
-                new String[]{String.valueOf(topicId)});
-        int count = 0;
-        if (null != cursor) {
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                count = cursor.getInt(0);
-            }
-            cursor.close();
-        }
-        return count;
-    }
 
     public long delTopic(long topicId) {
         return db.delete(
@@ -286,175 +252,6 @@ public class DBManager {
         return values;
     }
 
-    /*
-     * MEMO
-     */
-    public long insertMemo(String content, boolean isChecked, long refTopicId) {
-        return db.insert(
-                MemoEntry.TABLE_NAME,
-                null,
-                this.createMemoCV(content, isChecked, refTopicId));
-    }
-
-
-    public long delMemo(long memoId) {
-        return db.delete(
-                MemoEntry.TABLE_NAME,
-                MemoEntry._ID + " = ?"
-                , new String[]{String.valueOf(memoId)});
-    }
-
-    public long delAllMemoInTopic(long topicId) {
-        return db.delete(
-                MemoEntry.TABLE_NAME,
-                MemoEntry.COLUMN_REF_TOPIC__ID + " = ?"
-                , new String[]{String.valueOf(topicId)});
-    }
-
-    /**
-     * For select all memo and add order when database version update
-     *
-     * @param topicId
-     * @return
-     */
-    public Cursor selectMemo(long topicId) {
-        Cursor c = db.query(MemoEntry.TABLE_NAME, null, MemoEntry.COLUMN_REF_TOPIC__ID + " = ?", new String[]{String.valueOf(topicId)},
-                null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
-
-    /**
-     * Select memo & order for show in memoActivity
-     *
-     * @param topicId
-     * @return
-     */
-    public Cursor selectMemoAndMemoOrder(long topicId) {
-        Cursor c = db.rawQuery("SELECT * FROM " + MemoEntry.TABLE_NAME
-                        + " LEFT OUTER JOIN " + MemoOrderEntry.TABLE_NAME
-                        + " ON " + MemoEntry._ID + " = " + MemoOrderEntry.COLUMN_REF_MEMO__ID
-                        + " WHERE " + MemoEntry.COLUMN_REF_TOPIC__ID + " = " + topicId
-                        + " ORDER BY " + MemoOrderEntry.COLUMN_ORDER + " DESC "
-                , null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
-
-    public long updateMemoChecked(long memoId, boolean isChecked) {
-        ContentValues values = new ContentValues();
-        values.put(MemoEntry.COLUMN_CHECKED, isChecked);
-        return db.update(
-                MemoEntry.TABLE_NAME,
-                values,
-                MemoEntry._ID + " = ?",
-                new String[]{String.valueOf(memoId)});
-    }
-
-    public long updateMemoContent(long memoId, String memoContent) {
-        ContentValues values = new ContentValues();
-        values.put(MemoEntry.COLUMN_CONTENT, memoContent);
-        return db.update(
-                MemoEntry.TABLE_NAME,
-                values,
-                MemoEntry._ID + " = ?",
-                new String[]{String.valueOf(memoId)});
-    }
-
-    public long insertMemoOrder(long topicId, long memoId, long order) {
-        ContentValues values = new ContentValues();
-        values.put(MemoOrderEntry.COLUMN_ORDER, order);
-        values.put(MemoOrderEntry.COLUMN_REF_TOPIC__ID, topicId);
-        values.put(MemoOrderEntry.COLUMN_REF_MEMO__ID, memoId);
-        return db.insert(
-                MemoOrderEntry.TABLE_NAME,
-                null,
-                values);
-    }
-
-    public long deleteMemoOrder(long memoId) {
-        return db.delete(
-                MemoOrderEntry.TABLE_NAME,
-                MemoOrderEntry.COLUMN_REF_MEMO__ID + " = ?"
-                , new String[]{String.valueOf(memoId)});
-    }
-
-    public long deleteAllCurrentMemoOrder(long topicId) {
-        return db.delete(
-                MemoOrderEntry.TABLE_NAME,
-                MemoOrderEntry.COLUMN_REF_TOPIC__ID + " = ?"
-                , new String[]{String.valueOf(topicId)});
-    }
-
-
-    private ContentValues createMemoCV(String content, boolean isChecked, long refTopicId) {
-        ContentValues values = new ContentValues();
-        values.put(MemoEntry.COLUMN_CONTENT, content);
-        values.put(MemoEntry.COLUMN_CHECKED, isChecked);
-        values.put(MemoEntry.COLUMN_REF_TOPIC__ID, refTopicId);
-        return values;
-    }
-
-    /*
-     * Contacts
-     */
-
-    public long insertContacts(String name, String phoneNumber, String photo, long refTopicId) {
-        return db.insert(
-                ContactsEntry.TABLE_NAME,
-                null,
-                this.createContactsCV(name, phoneNumber, photo, refTopicId));
-    }
-
-    public long updateContacts(long contactsId, String name, String phoneNumber, String photo) {
-        ContentValues values = new ContentValues();
-        values.put(ContactsEntry.COLUMN_NAME, name);
-        values.put(ContactsEntry.COLUMN_PHONENUMBER, phoneNumber);
-        values.put(ContactsEntry.COLUMN_PHOTO, photo);
-
-        return db.update(
-                ContactsEntry.TABLE_NAME,
-                values,
-                ContactsEntry._ID + " = ?",
-                new String[]{String.valueOf(contactsId)});
-    }
-
-
-    public long delContacts(long contactsId) {
-        return db.delete(
-                ContactsEntry.TABLE_NAME,
-                ContactsEntry._ID + " = ?"
-                , new String[]{String.valueOf(contactsId)});
-    }
-
-    public long delAllContactsInTopic(long topicId) {
-        return db.delete(
-                ContactsEntry.TABLE_NAME,
-                ContactsEntry.COLUMN_REF_TOPIC__ID + " = ?"
-                , new String[]{String.valueOf(topicId)});
-    }
-
-    public Cursor selectContacts(long topicId) {
-        Cursor c = db.query(ContactsEntry.TABLE_NAME, null, ContactsEntry.COLUMN_REF_TOPIC__ID + " = ?", new String[]{String.valueOf(topicId)}, null, null,
-                ContactsEntry._ID + " DESC", null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
-
-    private ContentValues createContactsCV(String name, String phoneNumber, String photo, long refTopicId) {
-        ContentValues values = new ContentValues();
-        values.put(ContactsEntry.COLUMN_NAME, name);
-        values.put(ContactsEntry.COLUMN_PHONENUMBER, phoneNumber);
-        values.put(ContactsEntry.COLUMN_PHOTO, photo);
-        values.put(ContactsEntry.COLUMN_REF_TOPIC__ID, refTopicId);
-        return values;
-    }
 
     /**
      * For version 4 onUpgrade

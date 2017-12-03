@@ -60,28 +60,4 @@ public class DBStructure {
         public static final String COLUMN_REF_TOPIC__ID = "topic_order_ref_topic_id";
     }
 
-    public static abstract class MemoEntry implements BaseColumns {
-        public static final String TABLE_NAME = "memo_entry";
-        public static final String COLUMN_ORDER = "memo_order";
-        public static final String COLUMN_CONTENT = "memo_content";
-        public static final String COLUMN_CHECKED = "memo_checked";
-        public static final String COLUMN_REF_TOPIC__ID = "memo_ref_topic_id";
-    }
-
-    public static abstract class MemoOrderEntry implements BaseColumns {
-        public static final String TABLE_NAME = "memo_order";
-        public static final String COLUMN_ORDER = "memo_order_order_in_parent";
-        public static final String COLUMN_REF_TOPIC__ID = "memo_order_ref_topic_id";
-        public static final String COLUMN_REF_MEMO__ID = "memo_order_ref_memo_id";
-    }
-
-
-    public static abstract class ContactsEntry implements BaseColumns {
-        public static final String TABLE_NAME = "contacts_entry";
-        public static final String COLUMN_NAME = "contacts_name";
-        public static final String COLUMN_PHONENUMBER = "contacts_phone_number";
-        public static final String COLUMN_PHOTO = "contacts_photo";
-        public static final String COLUMN_REF_TOPIC__ID = "contacts_ref_topic_id";
-
-    }
 }
