@@ -26,16 +26,15 @@
             android:id="@+id/EDT_main_hashtag_search"
             android:layout_width="match_parent"
             android:layout_height="26dp"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/IV_main_setting"
+            android:layout_marginRight="50dp"
             android:background="@drawable/edittext_rounded_corner_bg"
             android:drawableLeft="@drawable/ic_search_white_18dp"
             android:inputType="textCapSentences"
             android:maxLines="1"
             android:textColor="@android:color/white"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:layout_alignBottom="@+id/IV_main_setting" />
 
     </RelativeLayout>
 

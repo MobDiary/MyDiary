@@ -82,11 +82,7 @@ public class EntriesFragment extends BaseDiaryFragment implements
 
 
     public void setBottomBarUI() {
-
-            entriesAdapter.setEditMode(false);
             TV_entries_edit_msg.setVisibility(View.GONE);
-            IV_main_setting.setImageDrawable(ViewTools.getDrawable(getActivity(), R.drawable.ic_mode_edit_white_24dp));
-
     }
 
     public void gotoDiaryPosition(int position) {

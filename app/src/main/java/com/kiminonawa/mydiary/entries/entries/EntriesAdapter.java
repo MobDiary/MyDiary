@@ -213,10 +213,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
                     DiaryViewerDialogFragment.newInstance(entriesList.get(getAdapterPosition()).getId(),
                             isEditMode);
             diaryViewerDialog.setTargetFragment(mFragment, 0);
-            //Revert the icon
-            if (isEditMode) {
-                mFragment.setEditModeUI(isEditMode);
-            }
             diaryViewerDialog.show(mFragment.getFragmentManager(), "diaryViewerDialog");
         }
 
@@ -227,10 +223,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
                     DiaryViewerDialogFragment.newInstance(entriesList.get(getAdapterPosition()).getId(),
                             true);
             diaryViewerDialog.setTargetFragment(mFragment, 0);
-            //Revert the icon
-            if (isEditMode) {
-                mFragment.setEditModeUI(isEditMode);
-            }
             diaryViewerDialog.show(mFragment.getFragmentManager(), "diaryViewerDialog");
             return true;
         }

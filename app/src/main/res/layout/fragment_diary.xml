@@ -1,5 +1,3 @@
-
-<!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -310,7 +308,7 @@
         android:background="@drawable/view_top_shadow" />
 </RelativeLayout>
 
--->
+<!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -607,8 +605,9 @@
         </RelativeLayout>
 
     </ScrollView>
-
+-->
     <!-- 해시태그 입력란 -->
+<!--
     <RelativeLayout
         android:id="@+id/RL_diary_bar"
         android:layout_width="match_parent"
@@ -626,7 +625,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/IV_main_setting"
             android:background="@drawable/edittext_rounded_corner_bg"
             android:drawableLeft="@drawable/ic_search_white_18dp"
             android:inputType="textCapSentences"
@@ -634,14 +632,8 @@
             android:textColor="@android:color/white"
             android:textSize="16dp" />
 
-        <View
-            android:id="@+id/diary_edit_bar_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/shadow_height_3dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/view_top_shadow" />
 
     </RelativeLayout>
 
 </RelativeLayout>
+-->
