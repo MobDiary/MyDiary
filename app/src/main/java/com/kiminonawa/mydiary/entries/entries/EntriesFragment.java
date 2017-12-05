@@ -17,7 +17,6 @@ import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.entries.BaseDiaryFragment;
 import com.kiminonawa.mydiary.entries.DiaryActivity;
 import com.kiminonawa.mydiary.entries.photo.PhotoOverviewActivity;
-import com.kiminonawa.mydiary.setting.SettingActivity;
 import com.kiminonawa.mydiary.shared.ThemeManager;
 import com.kiminonawa.mydiary.shared.ViewTools;
 
@@ -111,8 +110,6 @@ public class EntriesFragment extends BaseDiaryFragment implements
             case R.id.EDT_main_hashtag_search:
                 break;
             case R.id.IV_main_setting:
-                Intent gotoSettingIntent = new Intent(getActivity(), SettingActivity.class);
-                getActivity().startActivity(gotoSettingIntent);
                 break;
 
         }

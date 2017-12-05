@@ -10,17 +10,14 @@ import android.widget.TextView;
 import com.kiminonawa.mydiary.BuildConfig;
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.entries.DiaryActivity;
-
-import com.kiminonawa.mydiary.security.PasswordActivity;
-import com.kiminonawa.mydiary.shared.MyDiaryApplication;
 import com.kiminonawa.mydiary.shared.SPFManager;
 
 
 public class InitActivity extends Activity implements InitTask.InitCallBack {
 
-    private TextView TV_init_message;
 
-    private int initTime = 2500; // 3S
+    // 초기화 시간 (로고를 띄운뒤에 대기시간)
+    private int initTime = 2000; // 3S
     private Handler initHandler;
 
     @Override
@@ -28,23 +25,19 @@ public class InitActivity extends Activity implements InitTask.InitCallBack {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         initHandler = new Handler();
-        //init UI
-        TV_init_message = (TextView) findViewById(R.id.TV_init_message);
     }
 
+    // 창이 꺼지지않고 백그라운드로 넘어갔다가 실행될 때
     @Override
     protected void onResume() {
         super.onResume();
-        //This apk is first install or was updated
-        if (SPFManager.getVersionCode(InitActivity.this) < BuildConfig.VERSION_CODE) {
-            TV_init_message.setVisibility(View.VISIBLE);
-        }
+        // initTime 만큼 지연된 후 동작
         initHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 new InitTask(InitActivity.this, InitActivity.this).execute();
             }
-        }, initTime);
+        },initTime);
     }
 
     @Override
@@ -56,18 +49,8 @@ public class InitActivity extends Activity implements InitTask.InitCallBack {
 
     @Override
     public void onInitCompiled(boolean showReleaseNote) {
-
-        if (((MyDiaryApplication) getApplication()).isHasPassword()) {
-            Intent goSecurityPageIntent = new Intent(this, PasswordActivity.class);
-            goSecurityPageIntent.putExtra("password_mode", PasswordActivity.VERIFY_PASSWORD);
-            goSecurityPageIntent.putExtra("showReleaseNote", showReleaseNote);
+            Intent DiaryIntent = new Intent(InitActivity.this, DiaryActivity.class);
             finish();
-            InitActivity.this.startActivity(goSecurityPageIntent);
-        } else {
-            Intent goMainPageIntent = new Intent(InitActivity.this, DiaryActivity.class);
-            goMainPageIntent.putExtra("showReleaseNote", showReleaseNote);
-            finish();
-            InitActivity.this.startActivity(goMainPageIntent);
-        }
+            InitActivity.this.startActivity(DiaryIntent);
     }
 }

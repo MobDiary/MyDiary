@@ -74,14 +74,9 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
-        //For set status bar
-        ChinaPhoneHelper.setStatusBar(this, true);
 
         topicId = getIntent().getLongExtra("topicId", -1);
         hasEntries = getIntent().getBooleanExtra("has_entries", true);
-        if (topicId == -1) {
-
-        }
         /**
          * init UI
          */
